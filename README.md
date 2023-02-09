@@ -1,6 +1,6 @@
 # Google Cloud CI/CD Service Account Generator
 
-This Terraform project generates Google Cloud service account keys for each Firebase project and uploads them to an S3 bucket.
+This Terraform project generates Google Cloud service account keys for each Firebase project and uploads them to SSM Parameter Store.
 Those API keys will be used by the CI/CD pipeline to access the Firebase projects.
 
 ## Getting started
@@ -21,7 +21,7 @@ swe prod-eu
 
 ## Usage
 
-Every time there is a new Firebase project, you generate a new Google Cloud service account key and add it to the S3 bucket with:
+Every time there is a new Firebase project, you generate a new Google Cloud service account key and add it to the SSM Parameter Store with:
 
 ```bash
 terraform apply
@@ -38,7 +38,7 @@ Now we need individual Google Cloud service account credentials for each Firebas
 
 ```bash
 # Download the JSON from SSM Parameter Store
-aws ssm get-parameter --name /bfan/firebase_service_account_keys/bfan-stadefrancais.json --with-decryption --output text --query Parameter.Value > ./firebase_service_account_keys/bfan-stadefrancais.json
+aws ssm get-parameter --name /google_cloud_ci_cd_service_account_generator/firebase_service_account_keys/bfan-stadefrancais --with-decryption --output text --query Parameter.Value > ./firebase_service_account_keys/bfan-stadefrancais.json
 # Set the GCloud credentials in the environment
 export GOOGLE_APPLICATION_CREDENTIALS=$(realpath ./firebase_service_account_keys/bfan-stadefrancais.json)
 # Use the credentials to access the Firebase project
