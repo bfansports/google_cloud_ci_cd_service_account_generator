@@ -37,7 +37,11 @@ The Firebase CLI is deprecating the `FIREBASE_TOKEN` environment variable that a
 Now we need individual Google Cloud service account credentials for each Firebase project. This is because the Firebase CLI uses the Google Cloud credentials to access the Firebase project.
 
 ```bash
-export GOOGLE_APPLICATION_CREDENTIALS=$(realpath ./bfan-google-cloud-service-accounts/firebase_service_account_keys/bfan-stadefrancais.json)
+# Download the JSON from SSM Parameter Store
+aws ssm get-parameter --name /bfan/firebase_service_account_keys/bfan-stadefrancais.json --with-decryption --output text --query Parameter.Value > ./firebase_service_account_keys/bfan-stadefrancais.json
+# Set the GCloud credentials in the environment
+export GOOGLE_APPLICATION_CREDENTIALS=$(realpath ./firebase_service_account_keys/bfan-stadefrancais.json)
+# Use the credentials to access the Firebase project
 firebase projects:list
 ```
 
@@ -47,5 +51,5 @@ In case you delete the S3 bucket, you need to recreate it with:
 
 ```bash
 # Make the Terraform state bucket in AWS PROD
-aws s3 mb s3://bfan-google-cloud-service-accounts
+aws s3 mb s3://bfan-terraform-state-bucket
 ```
