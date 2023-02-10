@@ -28,6 +28,7 @@ terraform apply
 ```
 
 *Don't be alarmed if it's recreating all the API keys, I set it up to rotate every time you run `terraform apply`*
+
 *If `google_project_iam_member.firebase-admin` fails, then you need to add the `Security Admin` role to your account.*
 
 ## Why ?
