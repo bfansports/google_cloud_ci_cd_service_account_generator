@@ -1,8 +1,8 @@
 resource "google_service_account" "firebase_service_account" {
   count        = length(data.google_projects.firebase_projects.projects)
-  account_id   = "onprem-bfan-firebase-ci-cd"
+  account_id   = "bfan-firebase-ci-cd-${var.aws_env_name}"
   display_name = "bFAN Firebase CI/CD Service Account"
-  description  = "Service account used by the CI/CD to deploy Firebase resources"
+  description  = "Service account used by the CI/CD to deploy Firebase resources. Accessed from AWS SSM Parameter Store of ${var.aws_env_name}."
   project      = data.google_projects.firebase_projects.projects[count.index].project_id
 }
 
