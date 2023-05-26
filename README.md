@@ -24,7 +24,7 @@ swe prod-eu
 Every time there is a new Firebase project, you generate a new Google Cloud service account key and add it to the SSM Parameter Store with:
 
 ```bash
-terraform apply
+terragrunt run-all apply
 ```
 
 *Don't be alarmed if it's recreating all the API keys, I set it up to rotate every time you run `terraform apply`*

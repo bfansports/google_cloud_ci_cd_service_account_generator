@@ -30,3 +30,6 @@ override.tf.json
 
 # Don't commit the credential files
 firebase_service_account_keys/*.json
+
+# Terragrunt files
+**/.terragrunt-cache/*
