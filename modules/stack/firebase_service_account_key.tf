@@ -1,6 +1,6 @@
 # Auto rotate the firebase service account key for added security
 resource "time_rotating" "firebase_service_account_key_rotation" {
-  rotation_minutes = 1 # note this requires the terraform to be run regularly
+  rotation_minutes = 30 # note this requires the terraform to be run regularly
 }
 
 resource "google_service_account_key" "firebase_service_account_key" {
