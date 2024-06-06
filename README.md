@@ -46,6 +46,7 @@ In case you delete the S3 bucket, you need to recreate it with:
 
 ```bash
 # Make the Terraform state bucket in AWS, and enable versioning
+swe prod-eu
 aws s3 mb "s3://bfan-terraform-state-bucket-$ENV"
 aws s3api put-bucket-versioning --bucket "bfan-terraform-state-bucket-$ENV" --versioning-configuration Status=Enabled
 ```
