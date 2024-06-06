@@ -13,12 +13,6 @@ gcloud auth application-default login
 
 *It needs `Security Admin` role, if you don't have it, then ask someone to go to [this link](https://console.cloud.google.com/iam-admin/iam?authuser=0&hl=en&orgonly=true&folder=&organizationId=744998649083&supportedpurview=organizationId) and add the role to your user.*
 
-Set up the AWS PROD credentials with
-
-```bash
-swe prod-eu
-```
-
 ## Usage
 
 Every time there is a new Firebase project, you generate a new Google Cloud service account key and add it to the SSM Parameter Store with:
@@ -51,6 +45,7 @@ firebase projects:list
 In case you delete the S3 bucket, you need to recreate it with:
 
 ```bash
-# Make the Terraform state bucket in AWS PROD
-aws s3 mb s3://bfan-terraform-state-bucket
+# Make the Terraform state bucket in AWS, and enable versioning
+aws s3 mb "s3://bfan-terraform-state-bucket-$ENV"
+aws s3api put-bucket-versioning --bucket "bfan-terraform-state-bucket-$ENV" --versioning-configuration Status=Enabled
 ```
