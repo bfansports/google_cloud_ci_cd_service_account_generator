@@ -24,6 +24,6 @@ locals {
   }
 }
 
-output "org_id_to_project_id" {
-  value = local.org_id_to_project_id
-}
+# output "org_id_to_project_id" {
+#   value = local.org_id_to_project_id
+# }
