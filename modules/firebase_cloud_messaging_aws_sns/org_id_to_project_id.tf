@@ -1,7 +1,8 @@
-# aws dynamodb scan \                                                                                                                                                                                                      ─╯
+# aws dynamodb scan \
 #     --table-name Organizations \
 #     --projection-expression "id, firebase_project_id" \
-#     --filter-expression "attribute_exists(firebase_project_id)" \
+#     --filter-expression "attribute_exists(firebase_project_id) AND attribute_type(firebase_project_id, :stringType)" \
+#     --expression-attribute-values "{\":stringType\":{\"S\": \"S\"}}" \
 #     --output json \
 #     --query "Items"
 module "aws_organizations_firebase_project_ids" {
@@ -12,8 +13,8 @@ module "aws_organizations_firebase_project_ids" {
     "dynamodb",
     "scan",
     "--table-name=Organizations",
-    "--projection-expression=\"id, firebase_project_id\"",
-    "--filter-expression=\"attribute_exists(firebase_project_id)\""
+    "--filter-expression=\"attribute_exists(firebase_project_id) AND attribute_type(firebase_project_id, :stringType)\"",
+    "--expression-attribute-values '{\":stringType\":{\"S\": \"S\"}}'"
   ]
   aws_cli_query = "Items"
 }
