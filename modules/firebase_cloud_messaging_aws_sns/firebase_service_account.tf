@@ -10,6 +10,7 @@ resource "google_service_account" "firebase_service_account" {
 resource "google_project_iam_member" "firebase_cloud_messaging_admin" {
   for_each = toset(values(local.org_id_to_project_id))
   project  = each.value
-  role     = "roles/firebasemessagingcampaigns.admin"
-  member   = "serviceAccount:${google_service_account.firebase_service_account[each.key].email}"
+  # role     = "roles/firebasemessagingcampaigns.admin" # Doesn't work.
+  role   = "roles/firebase.admin" # Works but too much privilege.
+  member = "serviceAccount:${google_service_account.firebase_service_account[each.key].email}"
 }
