@@ -15,7 +15,7 @@ resource "aws_sns_platform_application" "fcm_application" {
   event_endpoint_deleted_topic_arn = "arn:aws:sns:eu-west-1:${local.aws_account_id}:bFanDeleteEvents"
   event_endpoint_updated_topic_arn = "arn:aws:sns:eu-west-1:${local.aws_account_id}:bFanUpdateEvents"
 
-  # failure_feedback_role_arn    = "arn:aws:iam::${local.aws_account_id}:role/SNSFailureFeedback"
-  # success_feedback_role_arn    = "arn:aws:iam::${local.aws_account_id}:role/SNSSuccessFeedback"
+  failure_feedback_role_arn    = "arn:aws:iam::${local.aws_account_id}:role/SNSFailureFeedback"
+  success_feedback_role_arn    = "arn:aws:iam::${local.aws_account_id}:role/SNSSuccessFeedback"
   success_feedback_sample_rate = 100
 }
