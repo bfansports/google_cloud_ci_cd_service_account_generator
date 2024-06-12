@@ -9,7 +9,7 @@ resource "aws_sns_platform_application" "fcm_application" {
   name     = "${upper(each.key)}-ANDROID-${upper(local.env_name)}"
   platform = "GCM"
 
-  platform_credential = base64decode(google_service_account_key.firebase_service_account_key[each.key].private_key)
+  platform_credential = base64decode(google_service_account_key.firebase_service_account_key[each.value].private_key)
 
   event_endpoint_created_topic_arn = "arn:aws:sns:eu-west-1:${local.aws_account_id}:bFanCreateEvents"
   event_endpoint_deleted_topic_arn = "arn:aws:sns:eu-west-1:${local.aws_account_id}:bFanDeleteEvents"
