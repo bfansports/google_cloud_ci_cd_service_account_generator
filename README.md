@@ -5,11 +5,13 @@ Those API keys will be used by the CI/CD pipeline to access the Firebase project
 
 ## Getting started
 
-Set up the Google Cloud credentials with your `@bfansports.com` account:
+Set up the Google Cloud credentials with `dev-google@bfansports.com` account:
 
 ```bash
 gcloud auth application-default login
 ```
+
+*We are using `dev-google@bfansports.com` because it also needs access to the `fkcrvenazvezda` Firebase project. Once it's accessible to all bFAN developers, you can use any account that has the  `Security Admin` role.*
 
 *It needs `Security Admin` role, if you don't have it, then ask someone to go to [this link](https://console.cloud.google.com/iam-admin/iam?authuser=0&hl=en&orgonly=true&folder=&organizationId=744998649083&supportedpurview=organizationId) and add the role to your user.*
 
