@@ -6,6 +6,7 @@ provider "registry.opentofu.org/hashicorp/aws" {
   constraints = "5.52.0"
   hashes = [
     "h1:T7V0+fbqJy7U5eh0jG9RwSnVJvAc+kaGTKIBTHn8iGQ=",
+    "h1:psXEDH5VJYdnkAUNa3GL9gQMHypStsGlRV0A7WmCSQY=",
     "zh:03cffc3a0f9f4e3d5cef6023c096b7b86b2604dd0a0ccaa00e57aaa3136963f9",
     "zh:480ccd23b78248940a1a9b3d4631bd7e667ddfc3a9ec4f35345752bf43d1ce54",
     "zh:5c7bc53263a9bad1a97337f0c1c2684f89bbbc430b5a70a7a2d605bd245f4455",
@@ -23,6 +24,7 @@ provider "registry.opentofu.org/hashicorp/external" {
   version     = "2.3.3"
   constraints = "~> 2.0"
   hashes = [
+    "h1:bDJy8Mj5PMTEuxm6Wu9A9dATBL+mQDmHx8NnLzjvCcc=",
     "h1:bPQCwpSGRyqu3wpKkMqg9WVNTCTXGFup6QS84JgJydM=",
     "zh:1ec36864a1872abdfd1c53ba3c6837407564ac0d86ab80bf4fdc87b41106fe68",
     "zh:2117e0edbdc88f0d22fe02fe6b2cfbbbc5d5ce40f8f58e484d8d77d64dd7340f",
@@ -42,6 +44,7 @@ provider "registry.opentofu.org/hashicorp/google" {
   constraints = "5.32.0"
   hashes = [
     "h1:kKBIxUKtSOr7QebVvudAejXy3TiGxlW/6wSOU5G7AW4=",
+    "h1:u5fYhqLyKs7Aw7CqymbGtVQkFHJqpAddOmkcE4hbdA0=",
     "zh:19809f3da85ab470539a2a10832cc1b53d4034f75d2003e0bccb52d0977236ff",
     "zh:273a130c91cf3b592916b9532048fb366fe37567a6769029fb496bda8540c896",
     "zh:3f00bdfa1af87df53d6625d1b65fd7ac7f0b6b6e8c210d9dedddb8b08573e1ea",
@@ -60,6 +63,7 @@ provider "registry.opentofu.org/hashicorp/local" {
   constraints = "~> 2.0"
   hashes = [
     "h1:87L+rpGao062xifb1VuG9YVFwp9vbDP6G2fgfYxUkQs=",
+    "h1:GgW5qncKu4KnXLE1ZYv5iwmhSYtTNzsOvJAOQIyFR7E=",
     "zh:031c2c2070672b7e78e0aa15560839278dc57fe7cf1e58a617ac13c67b31d5fb",
     "zh:1ef64ea4f8382cd538a76f3d319f405d18130dc3280f1c16d6aaa52a188ecaa4",
     "zh:422ce45691b2f384dbd4596fdc8209d95cb43d85a82aaa0173089d38976d6e96",
@@ -77,6 +81,7 @@ provider "registry.opentofu.org/hashicorp/time" {
   version     = "0.11.2"
   constraints = "0.11.2"
   hashes = [
+    "h1:WVXqTGyMwPRVhT7R9DAMhTwdNaoAQeuGKqAncyS5yh8=",
     "h1:qxivXg2too+UTcA8O3ZOdajC1lpTfKHXA/CCcVOgpsc=",
     "zh:534d56fac2daa5c15737fa1907b7afe2d91474197a0ec272d3f864d2a0a87743",
     "zh:67c7765dc3b5ec19b6df32c29620de4b3e7846f5aa1a6b1b0e15394d87d0f875",
