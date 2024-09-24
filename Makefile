@@ -46,7 +46,7 @@ docker-run-%:
 		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
 		-v $(PWD):/app/ -w /app \
 		$(DOCKER_IMAGE) \
-		$*
+		"$*"
 
 plan-%: setup-aws-% setup-gcloud
 	@echo "Terragrunt version: $(TERRAGRUNT_VERSION)"
