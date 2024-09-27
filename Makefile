@@ -19,8 +19,13 @@ dev: init
 	tenv terragrunt install
 
 setup-aws-%: aws-environment-guard-%
-	@echo "Running aws sso login"
-	@aws sso login --profile $*
+	@echo "Checking if AWS SSO session is still valid"
+	@if ! aws sts get-caller-identity --profile $* > /dev/null 2>&1; then \
+		echo "AWS SSO session expired or not found, running aws sso login"; \
+		aws sso login --profile $*; \
+	else \
+		echo "AWS SSO session is still valid"; \
+	fi
 
 setup-gcloud:
 	@token=$$(gcloud auth application-default print-access-token); \
@@ -39,23 +44,24 @@ setup-gcloud:
 		fi; \
 	fi
 
-docker-run-%:
-	@echo "Running $* in Docker container"
-	docker run -it --rm \
-		-v ~/.aws/config:/root/.aws/config -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
-		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
-		-v $(PWD):/app/ -w /app \
-		$(DOCKER_IMAGE) \
-		"$*"
-
 plan-%: setup-aws-% setup-gcloud
 	@echo "Terragrunt version: $(TERRAGRUNT_VERSION)"
 	@echo "Opentofu version: $(OPENTOFU_VERSION)"
 	@echo "Environment: $*"
-	$(MAKE) docker-run-"terragrunt run-all plan"
+	docker run -it --rm \
+		-v ~/.aws/config:/root/.aws/config -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
+		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
+		-v $(PWD):/app/ -w /app/$* \
+		$(DOCKER_IMAGE) \
+		terragrunt run-all plan
 
 apply-%: setup-aws-% setup-gcloud
 	@echo "Terragrunt version: $(TERRAGRUNT_VERSION)"
 	@echo "Opentofu version: $(OPENTOFU_VERSION)"
 	@echo "Environment: $*"
-	$(MAKE) docker-run-"terragrunt run-all apply"
+	docker run -it --rm \
+		-v ~/.aws/config:/root/.aws/config -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
+		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
+		-v $(PWD):/app/ -w /app/$* \
+		$(DOCKER_IMAGE) \
+		terragrunt run-all apply

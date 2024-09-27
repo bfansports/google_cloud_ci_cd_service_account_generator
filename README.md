@@ -8,7 +8,10 @@ Those API keys will be used by the CI/CD pipeline to access the Firebase project
 Set up the Google Cloud credentials with `dev-google@bfansports.com` account:
 
 ```bash
+# Authenticate with Google Cloud
 gcloud auth application-default login
+# OR run this to set up the development environment
+make dev
 ```
 
 *We are using `dev-google@bfansports.com` because it also needs access to the `fkcrvenazvezda` Firebase project. Once it's accessible to all bFAN developers, you can use any account that has the  `Security Admin` role.*
@@ -20,7 +23,10 @@ gcloud auth application-default login
 Every time there is a new Firebase project, you generate a new Google Cloud service account key and add it to the SSM Parameter Store with:
 
 ```bash
-terragrunt run-all apply
+# Look at the changes
+make plan-prod-eu
+# Apply the changes
+make apply-prod-eu
 ```
 
 *Don't be alarmed if it's recreating all the API keys, I set it up to rotate every time you run `terraform apply`*
