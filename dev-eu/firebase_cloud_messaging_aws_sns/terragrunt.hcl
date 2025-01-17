@@ -1,7 +1,7 @@
 locals {
-  aws_profile = split("/", get_path_from_repo_root())[0]
+  aws_profile = get_env("AWS_PROFILE")
   terraform_bucket_name = "bfan-terraform-state-bucket-${split("-", local.aws_profile)[0]}"
-  module_name = split("/", get_path_from_repo_root())[1]
+  module_name = split("/", get_terragrunt_dir())[3]
 }
 
 generate "backend" {

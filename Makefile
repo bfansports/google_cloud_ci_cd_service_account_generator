@@ -1,11 +1,23 @@
-# Read the .terragrunt-version in current directory
 TERRAGRUNT_VERSION := $(shell cat .terragrunt-version)
-# Read the .opentofu-version in current directory
 OPENTOFU_VERSION := $(shell cat .opentofu-version)
-# Docker image from https://github.com/devops-infra/docker-terragrunt
+
 DOCKER_IMAGE := devopsinfra/docker-terragrunt:aws-ot-${OPENTOFU_VERSION}-tg-${TERRAGRUNT_VERSION}
+DOCKER_RUN = docker run -it --rm \
+    -e AWS_PROFILE=$(AWS_PROFILE) \
+    -v ~/.aws/config:/root/.aws/config \
+    -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
+    -v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
+    -v $(PWD):/app/ \
+    -w /app/$*
 
 POSSIBLE_AWS_ENVIRONMENTS := dev-eu qa-eu prod-eu
+
+help:
+	@echo "Available commands:"
+	@echo "  make init             - Pull Docker image and install tools"
+	@echo "  make plan-<env>       - Run Terragrunt plan for an environment"
+	@echo "  make apply-<env>      - Run Terragrunt apply for an environment"
+
 aws-environment-guard-%:
 	@echo $(POSSIBLE_AWS_ENVIRONMENTS) | grep -wq $* || (echo "Invalid AWS environment: $*" && exit 1)
 
@@ -19,9 +31,9 @@ dev: init
 	tenv terragrunt install
 
 setup-aws-%: aws-environment-guard-%
-	@echo "Checking if AWS SSO session is still valid"
+	@echo "Setting up AWS for environment: $*"
 	@if ! aws sts get-caller-identity --profile $* > /dev/null 2>&1; then \
-		echo "AWS SSO session expired or not found, running aws sso login"; \
+		echo "Error: AWS SSO session expired or not found for $*"; \
 		aws sso login --profile $*; \
 	else \
 		echo "AWS SSO session is still valid"; \
@@ -48,20 +60,13 @@ plan-%: setup-aws-% setup-gcloud
 	@echo "Terragrunt version: $(TERRAGRUNT_VERSION)"
 	@echo "Opentofu version: $(OPENTOFU_VERSION)"
 	@echo "Environment: $*"
-	docker run -it --rm \
-		-v ~/.aws/config:/root/.aws/config -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
-		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
-		-v $(PWD):/app/ -w /app/$* \
-		$(DOCKER_IMAGE) \
-		terragrunt run-all plan
+	$(DOCKER_RUN) $(DOCKER_IMAGE) terragrunt run-all plan
+
 
 apply-%: setup-aws-% setup-gcloud
 	@echo "Terragrunt version: $(TERRAGRUNT_VERSION)"
 	@echo "Opentofu version: $(OPENTOFU_VERSION)"
 	@echo "Environment: $*"
-	docker run -it --rm \
-		-v ~/.aws/config:/root/.aws/config -v ~/.aws/sso/cache/:/root/.aws/sso/cache/ \
-		-v ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json \
-		-v $(PWD):/app/ -w /app/$* \
-		$(DOCKER_IMAGE) \
-		terragrunt run-all apply
+	$(DOCKER_RUN) $(DOCKER_IMAGE) terragrunt run-all apply --terragrunt-log-level debug --terragrunt-debug
+
+.PHONY: init setup-gcloud setup-aws-% plan-% apply-% help
