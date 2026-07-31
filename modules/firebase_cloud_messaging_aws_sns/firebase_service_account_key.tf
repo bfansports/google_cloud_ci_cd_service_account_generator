@@ -4,7 +4,7 @@ resource "time_rotating" "firebase_service_account_key_rotation" {
 }
 
 resource "google_service_account_key" "firebase_service_account_key" {
-  for_each           = toset(values(local.org_id_to_project_id))
+  for_each           = setsubtract(toset(values(local.org_id_to_project_id)), var.excluded_project_ids)
   service_account_id = google_service_account.firebase_service_account[each.key].id
   keepers = {
     rotation_time = time_rotating.firebase_service_account_key_rotation.rotation_rfc3339

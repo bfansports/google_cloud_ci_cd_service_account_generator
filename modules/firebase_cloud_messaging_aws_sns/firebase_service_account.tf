@@ -8,7 +8,7 @@ resource "google_service_account" "firebase_service_account" {
 
 # Grant it Firebase Admin role
 resource "google_project_iam_member" "firebase_cloud_messaging_admin" {
-  for_each = toset(values(local.org_id_to_project_id))
+  for_each = setsubtract(toset(values(local.org_id_to_project_id)), var.excluded_project_ids)
   project  = each.value
   # role     = "roles/firebasemessagingcampaigns.admin" # Doesn't work.
   # role   = "roles/firebasenotifications.admin" # Deprecated and doesn't work.

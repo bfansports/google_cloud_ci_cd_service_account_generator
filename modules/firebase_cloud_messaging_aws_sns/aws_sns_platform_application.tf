@@ -5,7 +5,7 @@ locals {
 }
 
 resource "aws_sns_platform_application" "fcm_application" {
-  for_each = local.org_id_to_project_id
+  for_each = { for org, project in local.org_id_to_project_id : org => project if !contains(var.excluded_project_ids, project) }
   name     = "${upper(each.key)}-ANDROID-${upper(local.env_name)}"
   platform = "GCM"
 
